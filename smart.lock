@@ -1,0 +1,41 @@
+{
+  "meteor": {
+    "git": "https://github.com/meteor/meteor.git",
+    "branch": "master",
+    "commit": "f07715dc70de16a7aab84e56ab0c6cbd9c1f9dc6"
+  },
+  "dependencies": {
+    "basePackages": {
+      "roles": {},
+      "presence": {},
+      "gravatar": {}
+    },
+    "packages": {
+      "roles": {
+        "git": "https://github.com/alanning/meteor-roles.git",
+        "tag": "v1.0.3",
+        "commit": "1de73e6e43e3205472172ef24a3a01cf72482d38"
+      },
+      "presence": {
+        "git": "https://github.com/tmeasday/meteor-presence.git",
+        "tag": "v0.1.0",
+        "commit": "63b7f5739e092e719b9148fe78aeac2c2afeb8a7"
+      },
+      "gravatar": {
+        "git": "https://github.com/tmeasday/meteor-gravatar.git",
+        "tag": "v0.0.3",
+        "commit": "557d1a7bff98d285cb023b0f44541a66bf0c7b4c"
+      },
+      "crypto-md5": {
+        "git": "https://github.com/tmeasday/meteor-crypto-md5.git",
+        "tag": "v0.0.1",
+        "commit": "a0638a6cabfc84e19f2d5828f76aa8f6a0cc8c1a"
+      },
+      "crypto-base": {
+        "git": "https://github.com/tmeasday/meteor-crypto-base.git",
+        "tag": "v0.0.1",
+        "commit": "668fc710ad041eee6ae2f9b53289128f211aa9e0"
+      }
+    }
+  }
+}

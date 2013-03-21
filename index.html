@@ -1,0 +1,187 @@
+<head>
+  <title>MedellinJS Social Music Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+  <script src="/audiojs/audio.min.js"></script>
+  <!-- Estilo de bootstrap personalizado reemplazando el del paquete de meteor -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />  
+  <link rel="stylesheet" href="/css/main.css" />  
+</head>
+
+<body>
+  {{> main}}
+</body>
+
+<!-- Plantilla principal importando por secciones otras plantillas -->
+<template name="main">
+  <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">          
+          <a class="brand" href="#">MedellinJS Social Music Player</a>          
+          <ul class="nav pull-right">
+            <li>{{loginButtons}}</li>
+          </ul>          
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <!-- Sección  de informacion sobre reproducción actual y usuarios -->
+      <div class="hero-unit pagination-centered">
+        <div class="row-fluid fill">
+          <div class="span8">
+            {{>playing_info}}
+            <audio preload="none" />
+            {{>playing}}        
+          </div>
+          <div class="span4">
+            {{>online_users}}
+          </div>
+        </div>
+      </div>
+      <!-- columnas para la música -->
+      <div class="row-fluid fill">
+        <!-- álbumes -->
+        <div id="albums" class="span4">
+          {{> albums_view}}
+        </div>
+        <!-- pistas -->
+        <div id="tracks" class="span4">
+          {{> tracks_view}}
+        </div>
+        <!-- cola -->
+        <div id="playlist" class="span4">
+           {{> queue_view}}
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; MedellinJS 2013</p>
+      </footer>
+    </div> <!-- /container -->
+</template>
+ <!-- Template para la vista de álbumes -->
+<template name="albums_view">
+  <h3>Álbumes disponibles</h3>
+  <div class="divscroll">
+    <table class="table table-condensed table-hover">
+      <thead>
+          <tr>
+            <th>Portada</th>
+            <th>Artista - Album</th>
+          </tr>
+      </thead>
+      <tbody>        
+      {{#each jamendo_albums}}
+        <tr id="{{this.id}}">
+          <td><img src="{{this.image}}" class="img-polaroid" style="max-width:80px;"></td>
+          <td style="vertical-align: middle;"><span class="label label-warning">{{this.name}}</span> por <span class="label label-info">{{this.artist_name}}</span></td>        
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!-- Template para la vista de pistas -->
+<template name="tracks_view">
+  <h3>Pistas de {{album_name}}</h3>
+  <div class="divscroll">
+    <table class="table table-condensed table-hover">
+        <thead>
+          <tr>          
+            <th>Nombre</th>
+            <th>Duración</th>
+            <th>Encolar</th>
+          </tr>
+        </thead>
+      <tbody>      
+      {{#each jamendo_tracks}}
+        <tr id="{{this.id}}">
+          <td><span class="label label-warning">{{this.name}}</span></td>
+          <td><span class="label label-info">{{secs_to_mins this.duration}}</span> <span class="hide">{{this.stream}}</span></td>       
+          <td>
+            {{queue_button}}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!-- Template para la vista de la cola -->
+<template name="queue_view">
+  <h3>Cola actual</h3>
+  <div class="divscroll">
+    <table class="table table-condensed table-hover" id="playlist">
+       <thead>
+          <tr>
+            <th>Album</th>
+            <th>Pista</th>            
+            <th>usuario</th>  
+          </tr>
+        </thead>
+      <tbody>       
+      {{#each jamendo_queue}}
+        <tr id="{{this._id}}" data-url="{{this.url}}" data-trackid="{{this.track_id}}">
+          <td><img src="{{this.album_image}}" class="img-polaroid" style="max-width:80px;"></td>
+          <td style="vertical-align: middle;">
+            <span class="label label-warning">{{this.name}}</span> por <span class="label label-info">{{this.artist_name}}</span><br/>
+            <span class="label label-success">{{this.album_name}}</span> - <span class="badge">{{this.duration}}</span><br/>
+            {{remove_button}}
+          </td>
+          <td style="text-align:center;">
+            <img src="{{user_image this.owner}}" alt="usuario" class="img-circle" style="width: 60px;" /><br/>
+            <span class="label label-success">{{user_name this.owner}}</span>
+          </td>          
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!-- Template para la vista de información de reproducción actual -->
+<template name="playing_info">  
+  <div id="playing">
+    {{#if playingsong}}
+    <img src="{{get_big_pic playingsong.album_image}}" alt="{{playingsong.album_name}}" /> - <img src="{{user_image playingsong.owner}}" alt="usuario" class="img-circle" /><span class="label label-success">{{user_name playingsong.owner}}</span>
+    <p><span class="label label-warning">{{playingsong.name}}</span> por <span class="label label-success">{{playingsong.artist_name}}</span> - <span class="label label-info">{{playingsong.album_name}}</span></p>
+    {{else}}
+    <img src="/images/medellin-js.jpg" alt="Medellin JS" />              
+    <p><span class="label label-warning">Meteor Player</span> por <span class="label label-success">edsadr</span> - <span class="label label-info">SocialMusic</span></p>
+    {{/if}}
+  </div>
+</template>
+
+<!-- Template para el control del administrador -->
+<template name="playing">  
+  <div>
+    <p>{{next_button}}</p>
+  </div>
+</template>
+
+<!-- Template para la vista de usuarios conectados -->
+<template name="online_users">
+  <h3>Usuarios conectados</h3>
+  <div class="userscroll">
+    <table class="table table-condensed table-hover" id="playlist">
+         <thead>
+            <tr>
+              <th>Avatar</th>
+              <th>Nombre de usuario</th>            
+              <th>Admin</th>  
+            </tr>
+          </thead>
+        <tbody>     
+      {{#each onliners}}
+       <tr id="{{this.userId}}">
+          <td><img src="{{user_image this.userId}}" alt="usuario" class="img-circle" style="width: 60px;" /></td>
+          <td style="vertical-align: middle;"><span class="label label-success">{{user_name this.userId}}</span></td>        
+          <td style="vertical-align: middle;">{{user_admin this.userId}}</td>
+       </tr>
+     {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

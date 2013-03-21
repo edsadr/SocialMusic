@@ -1,0 +1,34 @@
+/* CSS declarations go here */
+.navbar .nav.pull-right{
+	margin-right: 200px;
+	margin-top: 10px;
+}
+
+#albums tr:hover{
+	cursor: pointer;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
+}
+
+.hero-unit{
+	padding-bottom: 10px !important;
+}
+
+.divscroll{
+	height: 380px;
+	overflow: auto;
+	overflow-x:hidden;
+}
+
+.userscroll{
+	height: 280px;
+	overflow: auto;
+	overflow-x:hidden;
+}
+
+.audiojs{
+	margin: auto;
+}
