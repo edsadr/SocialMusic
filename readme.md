@@ -16,3 +16,25 @@ Esto es lo que propongo para el aplicativo:
 * Mejorar la arquitectura del aplicativo migrando a un modelo MVC hasta donde sea psoible
 
 Estaré pendiente del repositorio y de mi cuenta en Twitter [zenedsadr](https://twitter.com/zenedsadr) por si alguien esta interesado en participar en mi propuesta.
+
+Instalación
+-----------
+
+Para tener el aplicativo funcionando debemos de tener Node.js instalado y luego instalar Meteor en Linux o Mac:
+  
+  curl https://install.meteor.com | /bin/sh
+
+Si se va a trabajar en windows las instrucciones estan en el [port de Meteor para Windows](http://win.meteor.com/)
+
+Luego debemos tener instalado Meteorite:
+
+  sudo npm install -g meteorite
+
+Despues de esto se debe clonar el repositorio y luego ingresar al directorio y ejecutar:
+
+  mrt
+
+Esto genera la estructura de directorios requerida para que el aplicativo corra y lanzara el servidor en:
+
+  http://localhost:3000
+    
